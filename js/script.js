@@ -1,17 +1,23 @@
 function girar_carta() {
     const cartas = document.querySelectorAll(".carta");
-    
+    let giradas = [];
+  
     cartas.forEach(element => {
       element.addEventListener("click", function() {
         if (!this.classList.contains("girada")) {
           this.style.transform = "rotateY(180deg)";
           this.classList.add("girada");
-        } else {
-          this.style.transform = "rotateY(0deg)";
-          this.classList.remove("girada");
+          giradas.push(this)
+        }else if(){
+
         }
       });
     }); 
+
+    
+
+    
+
 }
 
 girar_carta();
@@ -38,16 +44,16 @@ function generar_pos_aleatoria_cartas(){
 
   const props = ["Python", "Java", "C_Sharp", "Javascript", "Php", "Sql", "Typescript", "C_Plus", "Ruby", "Swift"];
   let index = []
-  const cara_detras_lista = document.querySelectorAll(".cara.detras");
-  
-  cara_detras_lista.forEach(element => {
-    //A cada cara tengo que agregarle una imagen random, al colocarse la imagen 
-    //dos veces la elimino del array
-    let indice_temporal = index.push(generar_numero_aleatorio(props));
-  })
-
-
+  const cara_detras_lista = document.querySelectorAll(".cara.detras > img");
+  let i = 0
+  while (i < cara_detras_lista.length) {
+    index = generar_numero_aleatorio(index);
+    cara_detras_lista[i].setAttribute("src", src[props[index[i]]]);
+    i++;
+  }
 }
+
+generar_pos_aleatoria_cartas();
 
 function generar_numero_aleatorio(indexArray){
   indice_temporal = Math.floor(Math.random() * 10);
@@ -56,15 +62,15 @@ function generar_numero_aleatorio(indexArray){
   }else{
     generar_numero_aleatorio(indexArray);
   }
+
+  return indexArray;
 }
 
 function cartas_iguales(){
   
 }
 
-function cartas_diferentes(){
 
-}
 
 function comenzar_temporizador(){
 
