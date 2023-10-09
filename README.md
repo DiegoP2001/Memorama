@@ -33,3 +33,8 @@ Aquí están los lenguajes de programación que encontrarás en el memorama:
 Este juego es una forma divertida de familiarizarte con los nombres de algunos lenguajes de programación populares. ¡Juega una y otra vez para mejorar tu memoria y conocimientos!
 
 ¡Que comience el juego!
+
+Autores: 
+1. Diego Piedra Alvarez
+2. Iker Cao García
+3. Jokin Gonzalez Bergara
