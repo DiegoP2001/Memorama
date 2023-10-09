@@ -46,12 +46,16 @@ body{
   /*.carta-box:hover .carta {
       transform: rotateY(180deg);
   }*/
-  
+  .carta.bloquear-elemento {
+    pointer-events: none;
+  }
+
   .carta {
     width: 100;
     height: 120px;
     transform-style: preserve-3d;
     transition: all 0.5s linear;
+    pointer-events: auto;
   }
   
   .cara {
@@ -71,3 +75,32 @@ body{
   img{
     border-radius: 5px;
   }
+
+  .nombre{
+    margin-bottom: 2vh;
+  }
+
+  
+.info-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); 
+  position: relative;
+}
+
+
+.info-box {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+
+.info-box p {
+  margin: 0;
+  font-weight: bold;
+}

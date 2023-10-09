@@ -8,6 +8,10 @@ ul > li{
     margin: 1rem 1rem;
 }
 
+ul > li:hover{
+    scale: 1.2;
+}
+
 video {
     position: fixed;
     top: 0;
@@ -47,32 +51,14 @@ span{
     color: white;
 }
 
+.input-container{
+    max-width: 50vh;
+    margin: 0 auto;
+}
+
+a{
+    margin: 0 auto;
+}
 
 
 
-
-.carta-box {
-    margin: 100px;
-    width: 200px;
-    height: 250px;
-    position: relative;
-    perspective: 1000px;
-  }
-  
-  .carta-box:hover .carta {
-      transform: rotateY(180deg);
-  }
-  
-  .carta {
-    transform-style: preserve-3d;
-    transition: all 0.5s linear;
-  }
-  
-  .cara {
-    position: absolute;
-    backface-visibility: hidden;
-  }
-  
-  .cara.detras {
-    transform: rotateY(180deg);
-  }

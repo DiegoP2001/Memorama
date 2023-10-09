@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Hello Bulma!</title>
+    <title>Memorama</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
@@ -44,15 +44,20 @@
       </ul>
     </nav>
     <video autoplay loop muted>
-      <source src="./assets/original.mp4" type="video/mp4" />
+      <source src="./assets/preview.mp4" type="video/mp4" />
       Tu navegador no admite la reproducción de videos.
     </video>
     <section class="section">
       <div class="container">
         <h1 class="title">Desarrolladores en Juego: Memorama de Código</h1>
         <p class="subtitle">¡Ejercita tu memoria y conocimientos en código!</p>
-        <button class="button is-danger">Empezar</button>
+        <a class="link" href=""><button class="button is-danger" onclick="clickEmpezar()">Empezar</button></a>
       </div>
+      <h3 class="title is-3">Introduce tu nombre</h3>
+      <div class="input-container">
+        <input class="input is-primary" type="text" placeholder="Nombre">
+      </div>      
     </section>
+    <script src="./js/playerName.js"></script>
   </body>
 </html>
