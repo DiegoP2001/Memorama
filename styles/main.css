@@ -24,11 +24,13 @@ video {
 }
 
 .container{
-    margin: 0;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     height: 60vh;
     justify-content: center;
+    align-items: center;
+    margin-bottom: -15vh;
 }
 
 .title{
@@ -54,6 +56,11 @@ span{
 .input-container{
     max-width: 50vh;
     margin: 0 auto;
+}
+
+input{
+    text-align: center;
+    font-weight: bold;
 }
 
 a{

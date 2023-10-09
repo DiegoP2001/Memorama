@@ -6,16 +6,17 @@ function clickEmpezar(){
 
     if (input.value === '') {
         alert("Introduzca un nombre");
+        input.classList.remove("is-primary")
+        input.classList.add("id-danger")
     } else {
-    
-    let name = input.value; 
+        input.classList.remove("is-danger")
+        input.classList.add("id-primary")
+        let name = input.value; 
 
-    localStorage.setItem("Nombre", name);
-    link.setAttribute('href', './game.html');
+        localStorage.setItem("Nombre", name);
+        link.setAttribute('href', './game.html');
+    }
 
-    console.log(link)
-    console.log("Hola")
-}
 }
 
 
