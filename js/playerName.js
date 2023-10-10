@@ -6,11 +6,9 @@ function clickEmpezar(){
 
     if (input.value === '') {
         alert("Introduzca un nombre");
-        input.classList.remove("is-primary")
-        input.classList.add("id-danger")
+        
     } else {
-        input.classList.remove("is-danger")
-        input.classList.add("id-primary")
+    
         let name = input.value; 
 
         localStorage.setItem("Nombre", name);

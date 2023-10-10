@@ -5,6 +5,7 @@ const nombre = localStorage.getItem("Nombre");
 const nombreTitulo = document.querySelector('.title.is-4')
 nombreTitulo.textContent = nombre;
 
+
 function generar_pos_aleatoria_cartas(){
   
   const src = {
@@ -81,10 +82,10 @@ function comprobar_igualdad_cartas(){
     setTimeout(() => {
        cartas_giradas = document.querySelectorAll(".carta.girada")
        cartas_boca_abajo = document.querySelectorAll(".carta")
-       console.log(cartas_boca_abajo)
-       console.log(cartas_giradas)
-       console.log(carta1 + " Carta1")
-       console.log(carta2 + " Carta2")
+       //console.log(cartas_boca_abajo)
+       //console.log(cartas_giradas)
+       //console.log(carta1 + " Carta1")
+       //console.log(carta2 + " Carta2")
       }, 1)  
     
     setTimeout(() => {
@@ -92,8 +93,8 @@ function comprobar_igualdad_cartas(){
         
         carta1 = cartas_giradas[0].querySelector(".cara.detras > img").getAttribute("src");
         carta2 =  cartas_giradas[1].querySelector(".cara.detras > img").getAttribute("src");
-        console.log(carta1 + " Carta1 dentro de array = 2")
-        console.log(carta2 + " Carta2 dentro de array = 2")
+        //console.log(carta1 + " Carta1 dentro de array = 2")
+        //console.log(carta2 + " Carta2 dentro de array = 2")
 
         if(carta1 !== carta2){
           cartas_giradas[0].classList.remove("girada")
@@ -135,6 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (progressBar.value > 0) {
       progressBar.value -= 1;
       hasGanado(progressBar.value, nombre, score, intervalo)
+      //console.log(matches)
       if(matches === 10){
         clearInterval(intervalID)
       }
@@ -151,10 +153,23 @@ document.addEventListener("DOMContentLoaded", function () {
 function hasGanado(progressBarValue, nombre, score, intervalo){
 
   if((progressBarValue > 0 && matches === 10)){
+    
     limpiarPantalla()
     
-    alert("WINNER")
+    const confettiDiv = document.createElement("div");
+    confettiDiv.classList.add("confetti")
+    document.body.appendChild(confettiDiv)
+
+    setTimeout(() => {
+      confettiDiv.classList.add("active");
+    })
     
+    setTimeout(() => {
+        confettiDiv.classList.remove("active");
+    }, 2000); // Detén la animación después de 2 segundos
+    
+    //alert("WINNER")
+
     const infoContainer = document.createElement('div');
     infoContainer.classList.add('info-container');
 
@@ -182,6 +197,8 @@ function hasGanado(progressBarValue, nombre, score, intervalo){
 
 
     document.body.appendChild(infoContainer);
+
+   
 
   }
 }
@@ -234,8 +251,5 @@ function limpiarPantalla(){
     body.removeChild(body.firstChild);
   }
 }
-
-
-
 
 
