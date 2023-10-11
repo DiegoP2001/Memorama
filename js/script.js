@@ -258,7 +258,7 @@ const data = {
   time: tiempo
 };
 
-fetch('./insert.php', {
+fetch('./insertar.php', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json' // Puedes cambiar el tipo de contenido según tus necesidades
