@@ -19,7 +19,7 @@ $resultado = $conexion->query($sql);
 
 ?>
 <br>
-<h1>RANKING</h1>
+<h1 class="title is-1">RANKING</h1>
 <?php
 
 if ($resultado->num_rows > 0) {
