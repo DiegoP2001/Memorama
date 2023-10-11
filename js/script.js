@@ -73,7 +73,7 @@ girar_carta();
 
 
 function comprobar_igualdad_cartas(){
-
+    playAudio("./assets/flipcard.wav")
     let cartas_giradas = null;
     let cartas_boca_abajo = null;
     let carta1 = null;
@@ -98,6 +98,7 @@ function comprobar_igualdad_cartas(){
         //console.log(carta2 + " Carta2 dentro de array = 2")
 
         if(carta1 !== carta2){
+          playAudio("./assets/wrong.wav")
           cartas_giradas[0].classList.remove("girada")
           cartas_giradas[0].style.transform = "rotateY(0deg)"
           cartas_giradas[1].classList.remove("girada")
@@ -106,6 +107,7 @@ function comprobar_igualdad_cartas(){
           
           
         }else{
+          playAudio("./assets/rigth.wav")
           cartas_giradas[0].classList.remove("girada")
           cartas_giradas[1].classList.remove("girada")
           cartas_giradas[0].style.backgroundColor = "black"
@@ -130,7 +132,7 @@ function comprobar_igualdad_cartas(){
 
 document.addEventListener("DOMContentLoaded", function () {
   
-  let duracion = 6; 
+  let duracion = 60; 
   let intervalo = duracion * 1000 / progressBar.max;; 
   
   function actualizarProgressBar() {
@@ -142,8 +144,8 @@ document.addEventListener("DOMContentLoaded", function () {
         clearInterval(intervalID)
       }
     } else {
-      hasPerdido(progressBar.value, nombre, score, intervalo)
       clearInterval(intervalID);
+      hasPerdido()
     }
   }
 
@@ -154,12 +156,10 @@ document.addEventListener("DOMContentLoaded", function () {
 function hasGanado(progressBarValue, nombre, score, intervalo){
 
   if((progressBarValue > 0 && matches === 10)){
-    tiempo = 60 - (progressBarValue * intervalo / 1000);
-    sendDataToServer();
-    limpiarPantalla()
     
+    limpiarPantalla()
+    playAudio("./assets/winner.wav")
     startConfetti()
-
     setTimeout(() => {
       limpiarPantalla()
     }, 3000)
@@ -180,7 +180,7 @@ function hasGanado(progressBarValue, nombre, score, intervalo){
       scoreParagraph.innerHTML = `Puntaje: <span id="score">${score}</span>`;
 
       const tiempoParagraph = document.createElement('p');
-      
+      tiempo = 60 - ((progressBarValue * intervalo) / 1000)
       tiempoParagraph.innerHTML = `Tiempo: <span id="tiempo">${tiempo}seg</span>`;
 
 
@@ -199,15 +199,15 @@ function hasGanado(progressBarValue, nombre, score, intervalo){
   }
 }
 
-function hasPerdido(progressBarValue, nombre, score, intervalo){
+function hasPerdido(){
   
-  tiempo = 60 - (progressBarValue * intervalo / 1000);
   const cartas = document.querySelectorAll(".carta");
   
   cartas.forEach(element => {
     element.style.pointerEvents = "none"
   })
 
+  playAudio("./assets/gameOver.wav")
   limpiarPantalla();
 
   const infoContainer = document.createElement('div');
@@ -225,7 +225,7 @@ function hasPerdido(progressBarValue, nombre, score, intervalo){
     scoreParagraph.innerHTML = `Puntaje: <span id="score">${score}</span>`;
 
     const tiempoParagraph = document.createElement('p');
-    tiempoParagraph.innerHTML = `Tiempo: <span id="tiempo">${tiempo}seg</span>`;
+    tiempoParagraph.innerHTML = `Tiempo: <span id="tiempo">${60 - ((progressBarValue * intervalo) / 1000)}seg</span>`;
 
 
     infoBox.appendChild(nombreParagraph);
@@ -255,13 +255,13 @@ function sendDataToServer(){
 const data = {
   nombre: nombre,
   score: score,
-  time: tiempo 
+  time: tiempo
 };
 
-fetch('../insertar.php', {
+fetch('./insert.php', {
   method: 'POST',
   headers: {
-    'Content-Type': 'application/json' 
+    'Content-Type': 'application/json' // Puedes cambiar el tipo de contenido según tus necesidades
   },
   body: JSON.stringify(data) 
 })
@@ -269,7 +269,7 @@ fetch('../insertar.php', {
     if (!response.ok) {
       throw new Error('Error en la solicitud');
     }
-    return response.text(); 
+    return response.text(); // Otra opción es response.json() si esperas una respuesta JSON
   })
   .then(responseData => {
     console.log('Respuesta del servidor:', responseData);
@@ -280,4 +280,25 @@ fetch('../insertar.php', {
 
 }
 
+
+function playAudio(url) {
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const source = audioContext.createBufferSource();
+
+  const request = new XMLHttpRequest();
+  request.open('GET', url, true);
+  request.responseType = 'arraybuffer';
+
+  request.onload = function() {
+    audioContext.decodeAudioData(request.response, function(buffer) {
+      source.buffer = buffer;
+      source.connect(audioContext.destination);
+      source.start(0);
+    }, function(error) {
+      console.error('Error decoding audio data', error);
+    });
+  };
+
+  request.send();
+}
 
