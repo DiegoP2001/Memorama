@@ -106,29 +106,4 @@ body{
   font-weight: bold;
 }
 
-.confetti {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  transform-origin: 50% 0; /* Centra la animación en la parte superior */
-  background-color: #f00; /* Cambia el color del confeti según tus preferencias */
-  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-  animation: confetti-fall 2s linear infinite;
-  left: 50%; /* Centra horizontalmente */
-  transform: translateX(-50%); /* Centra horizontalmente */
-}
 
-@keyframes confetti-fall {
-  0% {
-      transform: translateY(0);
-      opacity: 1;
-  }
-  100% {
-      transform: translateY(100vh);
-      opacity: 0;
-  }
-}
-
-.confetti.active {
-  animation: confetti-fall 2s linear infinite;
-}

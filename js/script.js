@@ -1,8 +1,9 @@
 let matches = 0;
-let score = 0
+let score = 0;
+let tiempo = 0;
 let progressBar = document.getElementById("miProgress");
 const nombre = localStorage.getItem("Nombre");
-const nombreTitulo = document.querySelector('.title.is-4')
+const nombreTitulo = document.querySelector('.title.is-4');
 nombreTitulo.textContent = nombre;
 
 
@@ -129,7 +130,7 @@ function comprobar_igualdad_cartas(){
 
 document.addEventListener("DOMContentLoaded", function () {
   
-  let duracion = 60; 
+  let duracion = 6; 
   let intervalo = duracion * 1000 / progressBar.max;; 
   
   function actualizarProgressBar() {
@@ -141,8 +142,8 @@ document.addEventListener("DOMContentLoaded", function () {
         clearInterval(intervalID)
       }
     } else {
+      hasPerdido(progressBar.value, nombre, score, intervalo)
       clearInterval(intervalID);
-      hasPerdido()
     }
   }
 
@@ -153,60 +154,54 @@ document.addEventListener("DOMContentLoaded", function () {
 function hasGanado(progressBarValue, nombre, score, intervalo){
 
   if((progressBarValue > 0 && matches === 10)){
-    
+    tiempo = 60 - (progressBarValue * intervalo / 1000);
+    sendDataToServer();
     limpiarPantalla()
     
-    const confettiDiv = document.createElement("div");
-    confettiDiv.classList.add("confetti")
-    document.body.appendChild(confettiDiv)
+    startConfetti()
 
     setTimeout(() => {
-      confettiDiv.classList.add("active");
-    })
-    
+      limpiarPantalla()
+    }, 3000)
+
     setTimeout(() => {
-        confettiDiv.classList.remove("active");
-    }, 2000); // Detén la animación después de 2 segundos
+      const infoContainer = document.createElement('div');
+      infoContainer.classList.add('info-container');
+
+
+      const infoBox = document.createElement('div');
+      infoBox.classList.add('info-box');
+
+
+      const nombreParagraph = document.createElement('p');
+      nombreParagraph.innerHTML = `Nombre: <span id="nombre">${nombre}</span>`;
+
+      const scoreParagraph = document.createElement('p');
+      scoreParagraph.innerHTML = `Puntaje: <span id="score">${score}</span>`;
+
+      const tiempoParagraph = document.createElement('p');
+      
+      tiempoParagraph.innerHTML = `Tiempo: <span id="tiempo">${tiempo}seg</span>`;
+
+
+      infoBox.appendChild(nombreParagraph);
+      infoBox.appendChild(scoreParagraph);
+      infoBox.appendChild(tiempoParagraph);
+
+
+      infoContainer.appendChild(infoBox);
+
+
+      document.body.appendChild(infoContainer);
+
+    }, 3500)
     
-    //alert("WINNER")
-
-    const infoContainer = document.createElement('div');
-    infoContainer.classList.add('info-container');
-
-
-    const infoBox = document.createElement('div');
-    infoBox.classList.add('info-box');
-
-
-    const nombreParagraph = document.createElement('p');
-    nombreParagraph.innerHTML = `Nombre: <span id="nombre">${nombre}</span>`;
-
-    const scoreParagraph = document.createElement('p');
-    scoreParagraph.innerHTML = `Puntaje: <span id="score">${score}</span>`;
-
-    const tiempoParagraph = document.createElement('p');
-    tiempoParagraph.innerHTML = `Tiempo: <span id="tiempo">${60 - ((progressBarValue * intervalo) / 1000)}seg</span>`;
-
-
-    infoBox.appendChild(nombreParagraph);
-    infoBox.appendChild(scoreParagraph);
-    infoBox.appendChild(tiempoParagraph);
-
-
-    infoContainer.appendChild(infoBox);
-
-
-    document.body.appendChild(infoContainer);
-
-   
-
   }
 }
 
-function hasPerdido(){
+function hasPerdido(progressBarValue, nombre, score, intervalo){
   
-  alert("GAME OVER")
-
+  tiempo = 60 - (progressBarValue * intervalo / 1000);
   const cartas = document.querySelectorAll(".carta");
   
   cartas.forEach(element => {
@@ -230,7 +225,7 @@ function hasPerdido(){
     scoreParagraph.innerHTML = `Puntaje: <span id="score">${score}</span>`;
 
     const tiempoParagraph = document.createElement('p');
-    tiempoParagraph.innerHTML = `Tiempo: <span id="tiempo">${60 - ((progressBarValue * intervalo) / 1000)}seg</span>`;
+    tiempoParagraph.innerHTML = `Tiempo: <span id="tiempo">${tiempo}seg</span>`;
 
 
     infoBox.appendChild(nombreParagraph);
@@ -242,6 +237,8 @@ function hasPerdido(){
 
 
     document.body.appendChild(infoContainer);
+
+    alert("GAME OVER")
 }
 
 function limpiarPantalla(){
@@ -250,6 +247,37 @@ function limpiarPantalla(){
   while (body.firstChild) {
     body.removeChild(body.firstChild);
   }
+}
+
+
+function sendDataToServer(){
+  
+const data = {
+  nombre: nombre,
+  score: score,
+  time: tiempo 
+};
+
+fetch('../insertar.php', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json' 
+  },
+  body: JSON.stringify(data) 
+})
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Error en la solicitud');
+    }
+    return response.text(); 
+  })
+  .then(responseData => {
+    console.log('Respuesta del servidor:', responseData);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+
 }
 
 
