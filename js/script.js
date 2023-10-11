@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function hasGanado(progressBarValue, nombre, score, intervalo){
 
   if((progressBarValue > 0 && matches === 10)){
-    
+    sendDataToServer();
     limpiarPantalla()
     playAudio("./assets/winner.wav")
     startConfetti()
